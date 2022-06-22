@@ -1,3 +1,4 @@
+
 body {
 	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
@@ -5,6 +6,10 @@ body {
 		'Droid Sans', 'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	background: #FFB75E;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #ED8F03, #FFB75E);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #ED8F03, #FFB75E); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 code {
@@ -13,6 +18,8 @@ code {
 }
 
 .header {
+	font-family: 'Nanum Pen Script', cursive;
+	font-size: 24px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -25,7 +32,10 @@ code {
 .dark-mode h1 {
 	color: white;
 }
-
+.dark-mode .note {
+	color: white;
+	background-color: #232224;
+}
 .container {
 	max-width: 960px;
 	margin-right: auto;
@@ -57,7 +67,10 @@ textarea {
 textarea:focus {
 	outline: none;
 }
-
+.dark-mode .note.new, .dark-mode textarea {
+	color: white;
+	background-color: #232224;
+}
 .save {
 	background-color: #e1e1e1;
 	border: none;

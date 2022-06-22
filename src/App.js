@@ -26,45 +26,8 @@ function writeUserData(obj) {
 	})
 }
 
-
-
 const App = () => {
-	/*
-	const dbRef = ref(db);
-	get(child(dbRef, `obj/`)).then((snapshot) => {
-		//if (snapshot.exists()) {
-		let Benotes = snapshot.val();
-		console.log(Benotes);
-		alert("STOP")
-		//} 
-	}).catch((error) => {
-		console.error(error);
-	});*/
-
-	//console.log(Benotes);
-	
-
-
-	
-	const [notes, setNotes] = useState([
-		/*
-		{
-			id: nanoid(),
-			text: 'This is my first note!',
-			date: '15/04/2021',
-		},
-		{
-			id: nanoid(),
-			text: 'This is my second note!',
-			date: '21/04/2021',
-		},
-		{
-			id: nanoid(),
-			text: 'This is my third note!',
-			date: '28/04/2021',
-		},
-		*/
-	]);
+	const [notes, setNotes] = useState([]);
 
 	const [searchText, setSearchText] = useState('');
 	const [darkMode, setDarkMode] = useState(false);
@@ -79,10 +42,6 @@ const App = () => {
 		})
 
 	}, []);
-
-	/*useEffect(() => {
-		writeUserData(notes)
-	}, [notes]);*/
 
 	const addNote = (text) => {
 		const date = new Date();
@@ -119,18 +78,3 @@ const App = () => {
 	);
 };
 export default App;
-
-/*
-get(child(dbRef, `obj/`)).then((snapshot) => {
-			if (snapshot.exists()) {
-				const savedNotes = snapshot.val();
-			} else {
-				alert("No data available");
-			}
-			}).catch((error) => {
-			console.error(error);
-			});
-			if (savedNotes) {
-				setNotes(savedNotes);
-			}
-*/
