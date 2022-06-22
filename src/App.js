@@ -5,7 +5,7 @@ import Search from './components/Search';
 import Header from './components/Header';
 
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set,get, child, update, remove } from "firebase/database";
+import { getDatabase, ref, set, get, child} from "firebase/database";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBEqXM7JTOIXqsgLJGKaZwublShLW22UwM",
@@ -16,6 +16,7 @@ const firebaseConfig = {
 	messagingSenderId: "811981660675",
 	appId: "1:811981660675:web:7f7243ac218255a05f2436"
 };
+
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 
@@ -24,8 +25,29 @@ function writeUserData(obj) {
 		obj
 	})
 }
+
+
+
 const App = () => {
+	/*
+	const dbRef = ref(db);
+	get(child(dbRef, `obj/`)).then((snapshot) => {
+		//if (snapshot.exists()) {
+		let Benotes = snapshot.val();
+		console.log(Benotes);
+		alert("STOP")
+		//} 
+	}).catch((error) => {
+		console.error(error);
+	});*/
+
+	//console.log(Benotes);
+	
+
+
+	
 	const [notes, setNotes] = useState([
+		/*
 		{
 			id: nanoid(),
 			text: 'This is my first note!',
@@ -41,50 +63,27 @@ const App = () => {
 			text: 'This is my third note!',
 			date: '28/04/2021',
 		},
-		{
-			id: nanoid(),
-			text: 'This is my new note!',
-			date: '30/04/2021',
-		},
+		*/
 	]);
-//////////////////////////////////////////////////////////////////////////////
-	const [searchText, setSearchText] = useState('');
 
+	const [searchText, setSearchText] = useState('');
 	const [darkMode, setDarkMode] = useState(false);
 
 	useEffect(() => {
-		let savedNotes = '';
-		const dbRef = ref(getDatabase());
+		const dbRef = ref(db);
 		get(child(dbRef, `obj/`)).then((snapshot) => {
-		  if (snapshot.exists()) {
-			savedNotes = snapshot.val();
-			console.log(savedNotes);
-		  } else {
-			console.log("No data available");
-		  }
-		}).catch((error) => {
-		  console.error(error);
-		});
+			const savedNotes = snapshot.val();
+			if (savedNotes) {
+				setNotes(savedNotes);
+			}
+		})
 
-		/*const savedNotes = JSON.parse(
-			localStorage.getItem('react-notes-app-data')
-		);
-		console.log("HERE HERE HERE");
-		console.log(savedNotes);
-*/
-		if (savedNotes) {
-			setNotes(savedNotes);
-		}
 	}, []);
-//////////////////////////////////////////////////////////////////////////////////////
-	useEffect(() => {
+
+	/*useEffect(() => {
 		writeUserData(notes)
-		localStorage.setItem(
-			'react-notes-app-data',
-			JSON.stringify(notes)
-		);
-	}, [notes]);
-////////////////////////////////////////////////////////////////////////////////////////
+	}, [notes]);*/
+
 	const addNote = (text) => {
 		const date = new Date();
 		const newNote = {
@@ -94,11 +93,13 @@ const App = () => {
 		};
 		const newNotes = [...notes, newNote];
 		setNotes(newNotes);
+		writeUserData(newNotes)
 	};
 
 	const deleteNote = (id) => {
 		const newNotes = notes.filter((note) => note.id !== id);
 		setNotes(newNotes);
+		writeUserData(newNotes)
 	};
 
 	return (
@@ -118,3 +119,18 @@ const App = () => {
 	);
 };
 export default App;
+
+/*
+get(child(dbRef, `obj/`)).then((snapshot) => {
+			if (snapshot.exists()) {
+				const savedNotes = snapshot.val();
+			} else {
+				alert("No data available");
+			}
+			}).catch((error) => {
+			console.error(error);
+			});
+			if (savedNotes) {
+				setNotes(savedNotes);
+			}
+*/
