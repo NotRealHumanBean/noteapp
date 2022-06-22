@@ -5,8 +5,7 @@ import Search from './components/Search';
 import Header from './components/Header';
 
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, child, update, remove } from "firebase/database";
-import { hydrate } from 'react-dom';
+import { getDatabase, ref, set,get, child, update, remove } from "firebase/database";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBEqXM7JTOIXqsgLJGKaZwublShLW22UwM",
@@ -19,53 +18,13 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
-const letmeknow = {
-	id: "let",
-	text: "me",
-	data: "know"
-}
+
 function writeUserData(obj) {
 	set(ref(db), {
 		obj
-		//id: id,
-		//text: text,
-		//data: data
 	})
-	.then(()=>{
-	  alert("I was here");
-	  console.log("HELLO THERE")
-	})
-	.catch((error)=> {
-	  alert("unsuccessful error" + error)
-	});
 }
-function hey() {
-	console.log("HEY HEY HEY");
-}
-//writeUserData(notes.id, notes.text, notes.date)
-//writeUserData(nanoid(),'This is my first note!','15/04/2021')
-
 const App = () => {
-	hey();
-	//writeUserData(savedNotes)
-//////////////////////////////////////////////////////////////////////////////
-	/*
-	const writeUserData = (id, text, data) => {
-		set(ref(db, 'notes/'), {
-			id: id,
-			text: text,
-			data: data
-		})
-		.then(()=>{
-		alert("I was here");
-		console.log("HELLO THERE")
-		})
-		.catch((error)=> {
-		alert("unsuccessful error" + error)
-		});
-	};*/
-
-
 	const [notes, setNotes] = useState([
 		{
 			id: nanoid(),
@@ -94,10 +53,25 @@ const App = () => {
 	const [darkMode, setDarkMode] = useState(false);
 
 	useEffect(() => {
-		const savedNotes = JSON.parse(
+		let savedNotes = '';
+		const dbRef = ref(getDatabase());
+		get(child(dbRef, `obj/`)).then((snapshot) => {
+		  if (snapshot.exists()) {
+			savedNotes = snapshot.val();
+			console.log(savedNotes);
+		  } else {
+			console.log("No data available");
+		  }
+		}).catch((error) => {
+		  console.error(error);
+		});
+
+		/*const savedNotes = JSON.parse(
 			localStorage.getItem('react-notes-app-data')
 		);
-
+		console.log("HERE HERE HERE");
+		console.log(savedNotes);
+*/
 		if (savedNotes) {
 			setNotes(savedNotes);
 		}
@@ -120,7 +94,6 @@ const App = () => {
 		};
 		const newNotes = [...notes, newNote];
 		setNotes(newNotes);
-		//writeUserData(22, "Three Kingdoms", "Today")
 	};
 
 	const deleteNote = (id) => {
